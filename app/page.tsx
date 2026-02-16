@@ -453,8 +453,7 @@ function TaskCard({ task, onClick }: any) {
   return (
     <motion.div 
       draggable 
-      // Usamos Capture para garantir que o evento nativo seja disparado
-      // e tipamos explicitamente como React.DragEvent
+      // Utilizamos onDragStartCapture para ignorar o conflito com a API de gestos do Framer Motion
       onDragStartCapture={(e: React.DragEvent<HTMLDivElement>) => {
         e.dataTransfer.setData("taskId", task.id);
       }}
@@ -463,23 +462,26 @@ function TaskCard({ task, onClick }: any) {
       className="bg-zinc-950 border border-zinc-800 p-5 rounded-lg hover:border-zinc-600 transition-all cursor-grab active:cursor-grabbing group shadow-md relative overflow-hidden"
     >
       {task.priority === 'critical' && (
-        <div className="absolute left-0 top-0 h-full w-1 bg-red-500 shadow-[2px_0_10px_rgba(239,68,68,0.5)]" />
+        <div className="absolute left-0 top-0 h-full w-1 bg-red-500 shadow-[4px_0_20px_rgba(239,68,68,0.5)]" />
       )}
+      
       <div className="flex justify-between items-start mb-4">
         <span className="text-[9px] font-mono text-zinc-600 group-hover:text-blue-500 transition-colors uppercase font-bold tracking-tighter">
           {task.id}
         </span>
-        <span className="text-[10px] font-mono font-bold text-blue-400 bg-blue-500/5 px-2 py-0.5 rounded border border-blue-500/10">
-          {task.score}
+        <span className="text-[10px] font-mono font-black text-blue-400 bg-blue-500/10 border border-blue-500/20 px-4 py-1 rounded-full uppercase italic shadow-inner">
+          {task.score} SC
         </span>
       </div>
-      <h4 className="text-xs font-bold text-zinc-200 leading-snug group-hover:text-white mb-5">
+
+      <h4 className="text-xl font-black text-slate-200 leading-[1.1] group-hover:text-white mb-8 uppercase tracking-tighter italic">
         {task.title}
       </h4>
-      <div className="flex justify-between items-center text-[9px] font-bold text-zinc-600 border-t border-zinc-800 pt-4 uppercase">
+
+      <div className="flex justify-between items-center text-[10px] font-mono text-slate-700 border-t border-white/5 pt-6 uppercase tracking-widest">
         <PriorityBadge priority={task.priority} />
-        <span className="flex items-center gap-1 font-mono text-zinc-500 italic">
-          <Clock size={10} /> {task.due} left
+        <span className="text-red-500 font-black italic shadow-red-500/30 drop-shadow-md">
+          {task.due} LEFT
         </span>
       </div>
     </motion.div>
