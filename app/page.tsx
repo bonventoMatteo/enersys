@@ -3,10 +3,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  LayoutDashboard, CheckSquare, BarChart3, Search, Zap, 
-  LayoutGrid, Table as TableIcon, Clock, ChevronRight, Activity, 
-  X, Terminal, Cpu, Plus, Trash2, Edit3, AlertCircle, TrendingUp, 
+import {
+  LayoutDashboard, CheckSquare, BarChart3, Search, Zap,
+  LayoutGrid, Table as TableIcon, Clock, ChevronRight, Activity,
+  X, Terminal, Cpu, Plus, Trash2, Edit3, AlertCircle, TrendingUp,
   LogOut, Mail, Lock, CheckCircle2, ShieldCheck, Filter, ArrowUpRight
 } from 'lucide-react';
 
@@ -70,8 +70,8 @@ function AuthScreen() {
     setMsg({ type: '', text: '' });
 
     if (isSignUp) {
-      const { data, error } = await supabase.auth.signUp({ 
-        email, password, options: { emailRedirectTo: window.location.origin } 
+      const { data, error } = await supabase.auth.signUp({
+        email, password, options: { emailRedirectTo: window.location.origin }
       });
       if (error) setMsg({ type: 'error', text: error.message });
       else if (data.user && !data.session) setMsg({ type: 'success', text: 'VERIFICATION_SENT: Confirme seu email.' });
@@ -185,7 +185,7 @@ function MainPlatform({ session }: { session: any }) {
 
   return (
     <div className="flex h-screen w-full bg-[#09090b] text-zinc-300 font-sans overflow-hidden">
-      
+
       {/* SIDEBAR */}
       <aside className="w-64 border-r border-zinc-800 bg-[#09090b] hidden lg:flex flex-col z-20">
         <div className="p-6 flex items-center gap-3">
@@ -241,7 +241,7 @@ function MainPlatform({ session }: { session: any }) {
 
         <div className="flex-1 overflow-hidden p-6">
           <AnimatePresence mode="wait">
-            
+
             {currentView === 'tasks' ? (
               <motion.div key="tasks" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
                 <div className="flex items-center justify-between mb-6">
@@ -272,26 +272,26 @@ function MainPlatform({ session }: { session: any }) {
                     </div>
                   ) : (
                     <div className="h-full border border-zinc-800 bg-zinc-900/30 rounded-lg overflow-auto custom-scrollbar">
-                       <table className="w-full text-left border-collapse">
-                          <thead className="bg-zinc-900/80 sticky top-0 text-[10px] font-bold text-zinc-500 uppercase tracking-widest z-10">
-                            <tr className="border-b border-zinc-800">
-                              <th className="px-6 py-4 font-bold">Task ID</th>
-                              <th className="px-6 py-4 font-bold">Description</th>
-                              <th className="px-6 py-4 font-bold">Priority</th>
-                              <th className="px-6 py-4 font-bold text-right">Score</th>
+                      <table className="w-full text-left border-collapse">
+                        <thead className="bg-zinc-900/80 sticky top-0 text-[10px] font-bold text-zinc-500 uppercase tracking-widest z-10">
+                          <tr className="border-b border-zinc-800">
+                            <th className="px-6 py-4 font-bold">Task ID</th>
+                            <th className="px-6 py-4 font-bold">Description</th>
+                            <th className="px-6 py-4 font-bold">Priority</th>
+                            <th className="px-6 py-4 font-bold text-right">Score</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filtered.map(t => (
+                            <tr key={t.id} onClick={() => setSelectedTask(t)} className="border-b border-zinc-800/50 hover:bg-zinc-800/30 cursor-pointer transition-colors group">
+                              <td className="px-6 py-4 text-[10px] font-mono text-zinc-500">{t.id}</td>
+                              <td className="px-6 py-4 text-xs font-semibold text-zinc-200">{t.title}</td>
+                              <td className="px-6 py-4"><PriorityBadge priority={t.priority} /></td>
+                              <td className="px-6 py-4 text-right font-mono text-blue-400 text-xs font-bold">{t.score}</td>
                             </tr>
-                          </thead>
-                          <tbody>
-                            {filtered.map(t => (
-                              <tr key={t.id} onClick={() => setSelectedTask(t)} className="border-b border-zinc-800/50 hover:bg-zinc-800/30 cursor-pointer transition-colors group">
-                                <td className="px-6 py-4 text-[10px] font-mono text-zinc-500">{t.id}</td>
-                                <td className="px-6 py-4 text-xs font-semibold text-zinc-200">{t.title}</td>
-                                <td className="px-6 py-4"><PriorityBadge priority={t.priority} /></td>
-                                <td className="px-6 py-4 text-right font-mono text-blue-400 text-xs font-bold">{t.score}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                       </table>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   )}
                 </div>
@@ -319,14 +319,14 @@ function MainPlatform({ session }: { session: any }) {
                   <div className="w-1 h-1 rounded-full bg-zinc-700" />
                   <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Metadata View</span>
                 </div>
-                <button onClick={() => setSelectedTask(null)} className="p-1 hover:bg-zinc-800 rounded-md text-zinc-500 transition-all"><X size={16}/></button>
+                <button onClick={() => setSelectedTask(null)} className="p-1 hover:bg-zinc-800 rounded-md text-zinc-500 transition-all"><X size={16} /></button>
               </div>
-              
+
               <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
                 <PriorityBadge priority={selectedTask.priority} />
                 <h1 className="text-2xl font-bold text-white mt-4 tracking-tight leading-snug">{selectedTask.title}</h1>
                 <p className="text-zinc-400 mt-4 text-sm leading-relaxed font-medium">{selectedTask.description || "No specific documentation provided for this unit."}</p>
-                
+
                 <div className="grid grid-cols-2 gap-4 mt-8">
                   <div className="p-4 bg-zinc-900 border border-zinc-800 rounded-lg">
                     <p className="text-[10px] font-bold text-zinc-500 uppercase mb-1">Impact Score</p>
@@ -348,7 +348,7 @@ function MainPlatform({ session }: { session: any }) {
 
               <div className="p-6 border-t border-zinc-800 bg-zinc-900/20 grid grid-cols-2 gap-4">
                 <button onClick={() => {
-                  if(confirm("Permanently purge this instance?")) {
+                  if (confirm("Permanently purge this instance?")) {
                     supabase.from('tasks').delete().eq('id', selectedTask.id).then(() => {
                       setTasks(prev => prev.filter(t => t.id !== selectedTask.id));
                       setSelectedTask(null);
@@ -372,14 +372,14 @@ function MainPlatform({ session }: { session: any }) {
                   <Plus size={20} className="text-blue-500" />
                   Initialize Task Instance
                 </h2>
-                <button type="button" onClick={() => setIsAddingTask(false)} className="text-zinc-600 hover:text-zinc-300"><X size={20}/></button>
+                <button type="button" onClick={() => setIsAddingTask(false)} className="text-zinc-600 hover:text-zinc-300"><X size={20} /></button>
               </div>
 
               <div className="space-y-5">
                 <FormInput name="title" label="Task Title" placeholder="e.g. Optimize API Latency" required />
                 <div className="grid grid-cols-2 gap-6">
-                   <FormInput name="score" label="Impact Score (0-100)" type="number" placeholder="90" required />
-                   <FormInput name="due" label="Estimated Interval" placeholder="2h 15m" required />
+                  <FormInput name="score" label="Impact Score (0-100)" type="number" placeholder="90" required />
+                  <FormInput name="due" label="Estimated Interval" placeholder="2h 15m" required />
                 </div>
                 <div className="grid grid-cols-2 gap-6">
                   <div className="space-y-2">
@@ -439,7 +439,7 @@ function PriorityBadge({ priority }: { priority: string }) {
 function DashCard({ label, value, icon: Icon, sub, color = "text-blue-500" }: any) {
   return (
     <div className="bg-zinc-950 border border-zinc-800 p-8 rounded-lg hover:border-zinc-700 transition-all group relative overflow-hidden">
-      <div className={`p-2 rounded bg-zinc-900 w-fit mb-6 ${color}`}><Icon size={18}/></div>
+      <div className={`p-2 rounded bg-zinc-900 w-fit mb-6 ${color}`}><Icon size={18} /></div>
       <p className="text-4xl font-bold text-white mb-1 tracking-tight">{value}</p>
       <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">{label}</p>
       <div className="mt-4 flex items-center gap-1 text-[9px] text-zinc-600">
@@ -451,20 +451,18 @@ function DashCard({ label, value, icon: Icon, sub, color = "text-blue-500" }: an
 
 function TaskCard({ task, onClick }: any) {
   return (
-    <motion.div 
-      draggable 
+    <motion.div
+      draggable
       // Utilizamos onDragStartCapture para ignorar o conflito com a API de gestos do Framer Motion
-      onDragStartCapture={(e: React.DragEvent<HTMLDivElement>) => {
-        e.dataTransfer.setData("taskId", task.id);
-      }}
-      onClick={onClick} 
-      layoutId={task.id} 
+      onDragStart={(e: any) => e.dataTransfer.setData("taskId", task.id)}
+      onClick={onClick}
+      layoutId={task.id}
       className="bg-zinc-950 border border-zinc-800 p-5 rounded-lg hover:border-zinc-600 transition-all cursor-grab active:cursor-grabbing group shadow-md relative overflow-hidden"
     >
       {task.priority === 'critical' && (
         <div className="absolute left-0 top-0 h-full w-1 bg-red-500 shadow-[4px_0_20px_rgba(239,68,68,0.5)]" />
       )}
-      
+
       <div className="flex justify-between items-start mb-4">
         <span className="text-[9px] font-mono text-zinc-600 group-hover:text-blue-500 transition-colors uppercase font-bold tracking-tighter">
           {task.id}
