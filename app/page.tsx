@@ -453,12 +453,15 @@ function TaskCard({ task, onClick }: any) {
   return (
     <motion.div
       draggable
-      // Utilizamos onDragStartCapture para ignorar o conflito com a API de gestos do Framer Motion
-      onDragStart={(e: any) => e.dataTransfer.setData("taskId", task.id)}
+      onDragStart={(e) => {
+        const dragEvent = e as unknown as React.DragEvent<HTMLDivElement>;
+        dragEvent.dataTransfer.setData("taskId", task.id);
+      }}
       onClick={onClick}
       layoutId={task.id}
       className="bg-zinc-950 border border-zinc-800 p-5 rounded-lg hover:border-zinc-600 transition-all cursor-grab active:cursor-grabbing group shadow-md relative overflow-hidden"
     >
+
       {task.priority === 'critical' && (
         <div className="absolute left-0 top-0 h-full w-1 bg-red-500 shadow-[4px_0_20px_rgba(239,68,68,0.5)]" />
       )}
