@@ -460,10 +460,9 @@ function DashCard({ label, value, icon: Icon, sub, color = "text-blue-500" }: an
   );
 }
 
-function TaskCard({ task, onClick }: TaskCardProps) {
+function TaskCard({ task, onClick }: any) {
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
     e.dataTransfer.setData("taskId", task.id);
-    e.dataTransfer.effectAllowed = "move";
   };
 
   return (
@@ -472,42 +471,28 @@ function TaskCard({ task, onClick }: TaskCardProps) {
         draggable
         onDragStart={handleDragStart}
         onClick={onClick}
-        className="bg-zinc-950 border border-zinc-800 p-5 rounded-lg 
-                   hover:border-zinc-600 transition-all 
-                   cursor-grab active:cursor-grabbing 
-                   group shadow-md relative overflow-hidden"
+        className="bg-zinc-950 border border-zinc-800 p-5 rounded-lg hover:border-zinc-600 transition-all cursor-grab active:cursor-grabbing group shadow-md relative overflow-hidden"
       >
-        {task.priority === "critical" && (
+        {task.priority === 'critical' && (
           <div className="absolute left-0 top-0 h-full w-1 bg-red-500 shadow-[4px_0_20px_rgba(239,68,68,0.5)]" />
         )}
 
         <div className="flex justify-between items-start mb-4">
-          <span className="text-[9px] font-mono text-zinc-600 
-                           group-hover:text-blue-500 transition-colors 
-                           uppercase font-bold tracking-tighter">
+          <span className="text-[9px] font-mono text-zinc-600 group-hover:text-blue-500 transition-colors uppercase font-bold tracking-tighter">
             {task.id}
           </span>
-
-          <span className="text-[10px] font-mono font-black text-blue-400 
-                           bg-blue-500/10 border border-blue-500/20 
-                           px-4 py-1 rounded-full uppercase italic shadow-inner">
+          <span className="text-[10px] font-mono font-black text-blue-400 bg-blue-500/10 border border-blue-500/20 px-4 py-1 rounded-full uppercase italic shadow-inner">
             {task.score} SC
           </span>
         </div>
 
-        <h4 className="text-xl font-black text-slate-200 
-                       leading-[1.1] group-hover:text-white 
-                       mb-8 uppercase tracking-tighter italic">
+        <h4 className="text-xl font-black text-slate-200 leading-[1.1] group-hover:text-white mb-8 uppercase tracking-tighter italic">
           {task.title}
         </h4>
 
-        <div className="flex justify-between items-center 
-                        text-[10px] font-mono text-slate-700 
-                        border-t border-white/5 pt-6 
-                        uppercase tracking-widest">
+        <div className="flex justify-between items-center text-[10px] font-mono text-slate-700 border-t border-white/5 pt-6 uppercase tracking-widest">
           <PriorityBadge priority={task.priority} />
-          <span className="text-red-500 font-black italic 
-                           shadow-red-500/30 drop-shadow-md">
+          <span className="text-red-500 font-black italic shadow-red-500/30 drop-shadow-md">
             {task.due} LEFT
           </span>
         </div>
@@ -515,6 +500,7 @@ function TaskCard({ task, onClick }: TaskCardProps) {
     </motion.div>
   );
 }
+
 
 function FormInput({ label, ...props }: any) {
   return (
